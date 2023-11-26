@@ -19,11 +19,30 @@ camera.position.setZ(30);
 
 renderer.render( scene, camera );
 
-const geometry = new THREE.TorusGeometry(10, 3, 16, 100)
+const geometry = new THREE.TorusGeometry(10, 1, 16, 100)
 const material = new THREE.MeshStandardMaterial( {color: 0xFF6347} );
 const torus = new THREE.Mesh(geometry, material);
 
 scene.add(torus)
+
+// Create and add another torus
+const geometry2 = new THREE.TorusGeometry(10, 1, 16, 100); // Adjust the parameters as needed
+const material2 = new THREE.MeshStandardMaterial({ color: 0x00ff00 }); // Adjust the color as needed
+const torus2 = new THREE.Mesh(geometry2, material2);
+
+scene.add(torus2);
+
+// Position the second torus
+torus2.position.set(0, 0, 0); // Adjust the position as needed
+
+// Rotation speed for the second torus (opposite direction)
+const rotationSpeed2 = -0.01;
+
+function animateTorus2() {
+    torus2.rotation.x += rotationSpeed2;
+    torus2.rotation.y += rotationSpeed2 * 1;
+    torus2.rotation.z += rotationSpeed2;
+}
 
 const heartShape = new THREE.Shape();
 heartShape.moveTo(25, 25);
@@ -105,9 +124,11 @@ document.body.onscroll = moveCamera
 function animate(){
     requestAnimationFrame(animate);
     torus.rotation.x += 0.01;
-    torus.rotation.y += 0.005;
+    torus.rotation.y += 0.01;
     torus.rotation.z += 0.01;
     renderer.render(scene, camera);
+
+    animateTorus2()
 }
 
 animate()
