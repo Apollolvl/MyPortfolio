@@ -25,6 +25,29 @@ const torus = new THREE.Mesh(geometry, material);
 
 scene.add(torus)
 
+const heartShape = new THREE.Shape();
+heartShape.moveTo(25, 25);
+heartShape.bezierCurveTo(25, 25, 20, 0, 0, 0);
+heartShape.bezierCurveTo(-30, 0, -30, 35, -30, 35);
+heartShape.bezierCurveTo(-30, 55, -10, 77, 25, 95);
+heartShape.bezierCurveTo(60, 77, 80, 55, 80, 35);
+heartShape.bezierCurveTo(80, 35, 80, 0, 50, 0);
+heartShape.bezierCurveTo(35, 0, 25, 25, 25, 25); 
+
+const extrudeSettings = { depth: 2, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+const heartGeometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+const heartMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+const heart = new THREE.Mesh(heartGeometry, heartMaterial);
+scene.add(heart);
+
+heart.scale.set(0.05, 0.05, 0.05);
+
+heart.rotation.x = Math.PI;
+
+heart.position.y = 2;
+heart.position.z = 0;
+heart.position.x = -1;
+
 const ambientLight = new THREE.AmbientLight(0xffffff)
 
 scene.add(ambientLight)
@@ -48,22 +71,7 @@ Array(250).fill().forEach(addStar)
 const backgroundTexture = new THREE.TextureLoader().load('space.jpeg');
 scene.background = backgroundTexture;
 
-const x = 0, y = 0;
 
-const heartShape = new THREE.Shape();
-
-heartShape.moveTo( x + 5, y + 5 );
-heartShape.bezierCurveTo( x + 5, y + 5, x + 4, y, x, y );
-heartShape.bezierCurveTo( x - 6, y, x - 6, y + 7,x - 6, y + 7 );
-heartShape.bezierCurveTo( x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19 );
-heartShape.bezierCurveTo( x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7 );
-heartShape.bezierCurveTo( x + 16, y + 7, x + 16, y, x + 10, y );
-heartShape.bezierCurveTo( x + 7, y, x + 5, y + 5, x + 5, y + 5 );
-
-const geometry = new THREE.ShapeGeometry( heartShape );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const mesh = new THREE.Mesh( geometry, material ) ;
-scene.add( mesh );
 
 const christmasTexture = new THREE.TextureLoader().load('christmas1.png');
 
@@ -85,8 +93,6 @@ function moveCamera() {
     christmas.rotation.y += 0.075;
     christmas.rotation.z += 0.05;
 
-    me.rotation.y += 0.01;
-    me.rotation.z += 0.01;
 
     camera.position.z = t * -0.01;
     camera.position.x = t * -0.0002;
@@ -98,11 +104,9 @@ document.body.onscroll = moveCamera
 
 function animate(){
     requestAnimationFrame(animate);
-
     torus.rotation.x += 0.01;
-    torus.rotation.y += 0.005
+    torus.rotation.y += 0.005;
     torus.rotation.z += 0.01;
-
     renderer.render(scene, camera);
 }
 
